@@ -44,6 +44,9 @@ export const SingleBlog = () => {
         )
     }
 
+    const handleAddComment = (e)=>{
+        e.preventDefault()
+    }
 
 
 
@@ -86,11 +89,28 @@ export const SingleBlog = () => {
                                 )
                             }
                         </div>
-                        <div className="">
-                            <form action="">
-                                <input type="text" placeholder="Enter comment " />
-                                <button>Submit</button>
-                                <button type="reset" >Reset</button>
+                        <hr className="h-[2px] w-[90%] mx-auto bg-zinc-200 " />
+                        <div className="w-[90%] mx-auto my-4">
+                            <h1 className="font-semibold text-lg">Add comment:-</h1>
+                            <form action="" onSubmit={(e)=> handleAddComment} className="flex flex-col gap-3">
+                                <input 
+                                    type="text" 
+                                    placeholder="Enter comment" 
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500"
+                                />
+                                <div className="flex gap-3 font-semibold">
+                                    <button 
+                                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                    >
+                                        Submit
+                                    </button>
+                                    <button 
+                                        type="reset" 
+                                        className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                                    >
+                                        Reset
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </>
