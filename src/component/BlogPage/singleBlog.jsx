@@ -11,6 +11,7 @@ export const SingleBlog = () => {
     const [err, seterr] = useState(null)
     const [load, setload] = useState(false)
     const [username,setusername] = useState("user")
+    const [comment, setcomment]= useState("")
 
     useEffect(() => {
         const fetchSingleBlog = async () => {
@@ -46,6 +47,7 @@ export const SingleBlog = () => {
 
     const handleAddComment = (e)=>{
         e.preventDefault()
+        console.log(comment);        
     }
 
 
@@ -97,6 +99,9 @@ export const SingleBlog = () => {
                                     type="text" 
                                     placeholder="Enter comment" 
                                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500"
+                                    value={comment}
+                                    name="comment"
+                                    onChange={(e)=>setcomment(e.target.val)}
                                 />
                                 <div className="flex gap-3 font-semibold">
                                     <button 

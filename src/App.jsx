@@ -6,6 +6,14 @@ import { Hero } from './component/HeroPage/hero'
 import { Hero2 } from './component/HeroPage/hero2'
 import { Blog } from './component/BlogPage/blog'
 import { SingleBlog } from './component/BlogPage/singleBlog'
+import { ToastContainer } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { login, logout} from "./component/Redux/feature/userSlice"
+import { UserProfile } from "./component/Nav/userProfile"
+import { AddBlog } from './component/BlogPage/AddBlog'
+const API = import.meta.env.VITE_USER_URL
 
 const Heropage = ()=>{
   return(
@@ -43,6 +51,14 @@ const router = createBrowserRouter([
     {
       path:"/blog/:_id",
       element:<SingleBlog />
+    },
+    {
+      path:"/user",
+      element:<UserProfile/>
+    },
+    {
+      path:"/create-blog",
+      element:<AddBlog/>
     }
   ]
   },
@@ -51,12 +67,28 @@ const router = createBrowserRouter([
 
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    fetchDetail()
+  },[])
+  const fetchDetail = async ()=>{
+    try {
+      const res = await axios.get(`${API}/auth-check`)
+      console.log(res)
+      if(res.data?.userData){
+        dispatch(login(res.data?.userData))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   
 
   return (
     <>
-      <RouterProvider router={router} />      
+      <RouterProvider router={router} />   
+      <ToastContainer/>   
     </>
   )
 }
