@@ -6,6 +6,8 @@ export const Nav = () => {
     const navigate = useNavigate()
     const imgUrl = useSelector((state)=> state.user?.user?.profilePicture)
     const username = useSelector((state) => state.user?.user?.username)
+    // console.log(user);
+    
     const handlelogin = () => {
         navigate("/login")
     }
@@ -13,7 +15,7 @@ export const Nav = () => {
         navigate("/")
     }
     const handleuser = ()=>{
-        navigate("/user")
+        navigate(`/user`)
     }
     const handleAddBlog = ()=>{
         navigate("/create-blog")
@@ -21,7 +23,7 @@ export const Nav = () => {
 
     return (
         <>
-            <nav className="h-[20vh] w-[100vw] bg-transparent absolute top-0 backdrop-blur-xl flex justify-evenly items-center shadow-xl ">
+            <nav className="h-[20vh] w-[100vw] bg-transparent relative top-0 backdrop-blur-xl flex justify-evenly items-center shadow-xl ">
                 <div className="w-auto ">
                     <img src="/logo2.png" alt="" onClick={handleimg} className="h-[100%] w-[180px] cursor-pointer " />
                 </div>

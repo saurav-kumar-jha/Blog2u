@@ -23,8 +23,9 @@ export const Login = () => {
         const savedUser = localStorage.getItem("user")
         if(savedUser){
             dispatch(login(JSON.parse(savedUser)))
+            navigate("/")
         }
-        console.log(savedUser)
+        // console.log(savedUser)
         
         if(isLoggedIn){
             navigate('/')
@@ -59,7 +60,7 @@ export const Login = () => {
             const res = await axios.post(`${API}/login`, data)
 
             if(res.data.success){
-                console.log(login(res.data?.validEmail))
+                // console.log(login(res.data?.validEmail))
                 dispatch(login(res.data?.validEmail))
 
                 toast.success(res.data.msg)

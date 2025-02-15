@@ -13,6 +13,7 @@ import axios from 'axios'
 import { login, logout} from "./component/Redux/feature/userSlice"
 import { UserProfile } from "./component/Nav/userProfile"
 import { AddBlog } from './component/BlogPage/AddBlog'
+import { EditProfile } from './component/Nav/EditProfile'
 const API = import.meta.env.VITE_USER_URL
 
 const Heropage = ()=>{
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
     {
       path:"/create-blog",
       element:<AddBlog/>
+    },
+    {
+      path:"/user/edit-profile",
+      element:<EditProfile />
     }
   ]
   },
