@@ -44,7 +44,6 @@ const AuthForm = () => {
             </div>
           </div>
         </div>
--
 
       </div>
     </>

@@ -3,6 +3,7 @@ import { useState } from "react"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
+import UserApi from "../utils/UserApi"
 const API = import.meta.env.VITE_USER_URL
 
 
@@ -86,36 +87,76 @@ export const Signup = () => {
     };
 
     const handleFormSubmit = async (e) => {
-        e.preventDefault()
-        if (!validValues) {
-            alert("Something went wrong")
-            return;
+        e.preventDefault();
+    
+        const { name, username, email, password, confirmPassword, mobileNo, profilePicture } = data;
+    
+        if (!name || !username || !email || !password || !confirmPassword) {
+          toast.error("Please fill in all the required fields.");
+          return;
         }
-        console.log(data)
-
+    
+        if (password !== confirmPassword) {
+          toast.error("Passwords do not match.");
+          return;
+        }
+    
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("username", username);
+        formData.append("email", email);
+        formData.append("password", password);
+        formData.append("confirmPassword", confirmPassword);
+        formData.append("mobileNo", mobileNo);
+        if (profilePicture) {
+          formData.append("profilePicture", profilePicture);
+        }
+    
         try {
-            const res = await axios.post(`${API}/register`, data, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            })
-            console.log(res)
-            toast.success("Registration successfully")
-        } catch (e) {
-            console.log(e.message)
-        }
-        setdata({
+          const res = await UserApi.post("/register", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            }, // if cookies are involved
+          });
+          console.log(formData)
+          console.log(res)
+    
+          if (res.data.success) {
+            toast.success(res.data.msg || "Registration successful!");
+            // Optionally navigate to login page
+            navigate("/login");
+          } else {
+            toast.error(res.data.msg || "Something went wrong");
+          }
+    
+          // Reset form after success
+          setdata({
             name: "",
             username: "",
             email: "",
             password: "",
             confirmPassword: "",
             mobileNo: "",
-            profilePicture: "",
-        });
-        setpreviewImg("");
-
-    }
+            profilePicture: null,
+          });
+          setpreviewImg("");
+        } catch (error) {
+          console.error("Registration Error:", error);
+    
+          if (error.response) {
+            const status = error.response.status;
+            if (status === 409) {
+              toast.error("User already exists. Please use a different email.");
+            } else if (status === 402) {
+              toast.error("Please fill all the required details.");
+            } else {
+              toast.error("Server error, please try again later.");
+            }
+          } else {
+            toast.error("Network error. Check your connection.");
+          }
+        }
+      };
     const handlepass = (e) => {
         e.preventDefault()
         setshowpass(!showpass)
@@ -127,7 +168,7 @@ export const Signup = () => {
     const handleImageClick = () => {
         setIsModalOpen(true);
     };
-    
+
     const closeModal = () => {
         setIsModalOpen(false);
     };
@@ -137,7 +178,7 @@ export const Signup = () => {
                 <h1 className='font-bold m-0 text-4xl text-center'>Create Account</h1>
                 {
                     previewImg ? (
-                        <img src={previewImg} alt="" onClick={handleImageClick}  className="w-24 h-24 rounded-full object-fit mb-3" />
+                        <img src={previewImg} alt="" onClick={handleImageClick} className="w-24 h-24 rounded-full object-fit mb-3" />
                     ) : (
                         <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
                             Profile

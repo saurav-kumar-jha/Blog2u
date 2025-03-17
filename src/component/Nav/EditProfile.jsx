@@ -1,33 +1,40 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import UserApi from "../utils/UserApi";
 const API = import.meta.env.VITE_USER_URL
 
 
 export const EditProfile = () => {
-    const { user } = useSelector((state) => state.user);
+    const {isLoggedIn, user } = useSelector((state) => state.user);
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         Name: "",
         bio: "",
         email: "",
-        mobile_no: "",
         profilePicture: null,
         previewImage: ""
     });
 
+    // console.log(user)
+
     useEffect(() => {
-        setFormData({
-            Name: user.Name || "",
-            bio: user.bio || "",
-            email: user.email || "",
-            mobile_no: user.mobile_no || "",
-            previewImage: user.profilePicture || ""
-        });
-    }, [user]);
+        // setFormData({
+        //     Name: user.Name || "",
+        //     bio: user.bio || "",
+        //     email: user.email || "",
+        //     mobile_no: user.mobile_no || "",
+        //     previewImage: user.profilePicture || ""
+        // });
+        if (!isLoggedIn) {
+            navigate("/login")
+        }
+        fetchData()
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -54,8 +61,17 @@ export const EditProfile = () => {
 
         try {            
             console.log(formData)
+            console.log(user)
 
-            const res = await axios.put(`${API}/update-userdetails`,formData,{
+
+            const formdata = new FormData();
+            formdata.append('name',formData.Name)
+            formdata.append('username',user.username)
+            formdata.append('bio',formData.bio)
+            formdata.append('profilePicture', formData.profilePicture)
+
+            console.log(formdata)
+            const res = await UserApi.put(`/update-userdetails`,formdata ,{
                 headers:{
                     "Content-Type":"multipart/form-data"
                 }
@@ -68,6 +84,31 @@ export const EditProfile = () => {
             setLoading(false);
         }
     };
+
+    const fetchData =  async ()=>{
+        try {
+            const response = await UserApi.get("/getUser-details");
+            const user = response?.data?.user;
+            console.log(response)
+            console.log(response?.data?.user);
+            
+            // if (user) {
+            //   setuserdata({
+            //     name: user.Name || "",
+            //     username: user.username || "",
+            //     bio: user.bio || "",
+            //     profilePicture: user.profilePicture || "",
+            //   });
+            //   setPreviewImage(user.profilePicture || ""); // Set preview for existing image
+            // }
+          } catch (error) {
+            if (!error.response?.data?.success) {
+              toast.error(error.response?.data?.msg);
+            //   navigate("/login");
+            }
+            console.error(error);
+          }
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
@@ -147,18 +188,6 @@ export const EditProfile = () => {
                                 type="email" 
                                 name="email"
                                 value={formData.email}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-
-                        {/* Phone */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                            <input 
-                                type="tel" 
-                                name="mobile_no"
-                                value={formData.mobile_no}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />

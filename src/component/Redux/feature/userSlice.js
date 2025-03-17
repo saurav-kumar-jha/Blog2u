@@ -20,11 +20,11 @@ const userSlice = createSlice({
             state.user=action.payload
             localStorage.setItem("user", JSON.stringify(action.payload))
         },
-        logout:(state,action)=>[
+        logout:(state,action)=>{
             state.isLoggedIn = false,
             state.user= {name:"",role:"",username:""},
             localStorage.removeItem('user')
-        ]
+        }
     }
 })
 export const {login, logout} = userSlice.actions
