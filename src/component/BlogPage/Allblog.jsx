@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 const API = import.meta.env.VITE_API_URL
 
 
-export const AllBlog = () => {
+export const ALlBlog = () => {
     const [blogs, setdata]= useState([])
     const [load, setload] = useState(false)
     const [err, seterr] = useState(null)
