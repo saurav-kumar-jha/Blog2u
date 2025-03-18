@@ -27,3 +27,4 @@ dist-ssr
 ./src/data.js
 ./skatch.ino
 ./skatch1.ino
+src/component/utils/blogApi.jsx

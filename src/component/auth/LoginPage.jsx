@@ -60,7 +60,7 @@ export const Login = () => {
             }
 
             const res = await axios.post(`${API}/login`, data)
-
+            console.log(res)
             if (res.data.success) {
                 // console.log(login(res.data?.validEmail))
                 dispatch(login(res.data?.validEmail))

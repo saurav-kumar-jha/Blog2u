@@ -1,7 +1,8 @@
 import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-const API = import.meta.env.VITE_API_URL
+import BlogApi from "../utils/blogApi"
+import { toast } from "react-toastify"
 
 export const AddBlog = () => {
     const [data, setdata] = useState({ title: "", content: "", tags: "", profilePicture: null, preview: "" })
@@ -30,21 +31,41 @@ export const AddBlog = () => {
         e.preventDefault();
 
         try {
-            console.log(data)
             const formData = new FormData();
             formData.append("title", data.title);
             formData.append("content", data.content);
             formData.append("tags", data.tags);
             formData.append("profilePicture", data.profilePicture);
-            const res = await axios.post(`${API}/create`, formData, {
+
+
+            const res = await BlogApi.post(`/create`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             })
             console.log(res)
 
+            if(res.data.success){
+                toast.success("Blog Added Successfully")
+                setTimeout(() => {
+                    setdata({
+                      title: "",
+                      content: "",
+                      tags: "",
+                      profilePicture: null,
+                      preview: "",
+                    });
+                    navigate(`/blog/${response.data.blog._id}`);
+                }, 1500);
+            }else{
+                toast.error(res.data.msg)
+            }
+
         } catch (error) {
-            console.error('Error creating blog:', error);
+            toast.error(
+                error.response ? error.response.data.msg : "Something went wrong!"
+            );
+            navigate("/login")
         }
     };
 

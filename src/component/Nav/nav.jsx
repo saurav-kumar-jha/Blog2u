@@ -18,7 +18,11 @@ export const Nav = () => {
         navigate(`/user`)
     }
     const handleAddBlog = ()=>{
-        navigate("/create-blog")
+        if(isLoggedIn){
+            navigate("/create-blog")
+        }else{
+            navigate("/login")
+        }
     }
 
     return (
