@@ -14,6 +14,7 @@ import { login, logout} from "./component/Redux/feature/userSlice"
 import { UserProfile } from "./component/Nav/userProfile"
 import { AddBlog } from './component/BlogPage/AddBlog'
 import { EditProfile } from './component/Nav/EditProfile'
+import UserApi from './component/utils/UserApi'
 const API = import.meta.env.VITE_USER_URL
 
 const Heropage = ()=>{
@@ -78,7 +79,7 @@ function App() {
   },[])
   const fetchDetail = async ()=>{
     try {
-      const res = await axios.get(`${API}/auth-check`)
+      const res = await UserApi.get('/auth-check')
       console.log(res)
       if(res.data?.userData){
         dispatch(login(res.data?.userData))
@@ -93,7 +94,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />   
-      <ToastContainer/>   
+      <ToastContainer position='top-center' />   
     </>
   )
 }

@@ -7,6 +7,7 @@ import { toast } from "react-toastify"
 export const AddBlog = () => {
     const [data, setdata] = useState({ title: "", content: "", tags: "", profilePicture: null, preview: "" })
     const navigate = useNavigate()
+    const [load, setload] = useState(false)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,6 +32,7 @@ export const AddBlog = () => {
         e.preventDefault();
 
         try {
+            setload(true)
             const formData = new FormData();
             formData.append("title", data.title);
             formData.append("content", data.content);
@@ -38,13 +40,12 @@ export const AddBlog = () => {
             formData.append("profilePicture", data.profilePicture);
 
 
-            const res = await BlogApi.post(`/create`, formData, {
+            const res = await BlogApi.post('/create', formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
             })
-            console.log(res)
-
+            setload(false)
             if(res.data.success){
                 toast.success("Blog Added Successfully")
                 setTimeout(() => {
@@ -129,9 +130,10 @@ export const AddBlog = () => {
 
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-                >
-                    Publish Blog
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors cursor-pointer "
+                > {
+                    load ? "Publishing...":"Publish Blog"
+                }                    
                 </button>
             </form>
         </section>

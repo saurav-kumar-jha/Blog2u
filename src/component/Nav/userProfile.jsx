@@ -26,7 +26,7 @@ export const UserProfile = () => {
             navigate("/login")
         }
         setEmail(user.isEmailVarified)
-
+        fetchUserDetail()
     }, [])
     const handleVerifyOtp = (e) => {
         e.preventDefault()
@@ -47,12 +47,29 @@ export const UserProfile = () => {
     const handlelogout = async (e) => {
         e.preventDefault()
 
-        if (isLoggedIn) {
-            dispatch(logout())
-            toast.success("Logout successfully..")
-            navigate("/login")
-        } else {
-            navigate("/login")
+        try{
+            const res = await UserApi.get("/logout")
+            console.log(res)
+            if(res.data?.success){
+                dispatch(logout())
+                toast.success(res.data?.msg)
+                setTimeout(() => {
+                    navigate("/")
+                }, 1200);
+            }
+        }catch(e){
+            console.log(e)
+        }
+    }
+    const fetchUserDetail = async (e)=>{
+        try{
+            const res = await UserApi.get('/getUser-details')
+            if(res.data?.success){
+                dispatch(login(res.data.user))
+                console.log(res.data.user)
+            }
+        }catch(e){
+            console.log(e)
         }
     }
     return (
@@ -75,7 +92,7 @@ export const UserProfile = () => {
 
                 <div className="px-6 py-4 space-y-4">
                     <div className="flex flex-col items-center space-y-1">
-                        <h2 className="text-2xl font-bold text-gray-800">{user.Name.toUpperCase()}</h2>
+                        <h2 className="text-2xl font-bold text-gray-800">{user.Name}</h2>
                         <p className="text-gray-600">@{user.username}</p>
                     </div>
 

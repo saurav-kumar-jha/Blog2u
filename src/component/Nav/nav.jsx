@@ -52,7 +52,7 @@ export const Nav = () => {
                                 <span className="text-3xl mx-1 cursor-pointer" onClick={handleuser}><FaUserCircle /> </span>
                                 )
                             }
-                                <p className="font-semibold text-lg mx-2" >Welcome <span className="font-medium text-lg hover:underline cursor-pointer " onClick={handleuser} > {username.split(' ')[0].toUpperCase()}</span> </p>
+                                <p className="font-semibold text-lg mx-2" >Welcome <span className="font-medium text-lg hover:underline cursor-pointer " onClick={handleuser} > {username }</span> </p>
                             </>
                         ) : (
                             <button className="h-auto w-auto px-[12px] cursor-pointer py-2 border border-transparent mx-2 text-[18px]" onClick={handlelogin} >Login</button>

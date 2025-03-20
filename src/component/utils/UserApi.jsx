@@ -5,4 +5,4 @@ const UserApi = axios.create({
     withCredentials:true
 })
 
-export default UserApi
+export default UserApi;

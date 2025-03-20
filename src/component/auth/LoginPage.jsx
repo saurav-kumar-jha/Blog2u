@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { login } from "../Redux/feature/userSlice"
-
-const API = import.meta.env.VITE_USER_URL
+import UserApi from "../utils/UserApi"
 
 
 export const Login = () => {
@@ -19,22 +18,10 @@ export const Login = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-
-        const savedUser = localStorage.getItem("user")
-        if (savedUser) {
-            const parseUser = JSON.parse(savedUser)
-            dispatch(login(parseUser))
-            navigate("/")
-        }else{
-            localStorage.removeItem("user")
-        }
-        // console.log(savedUser)
-
         if (isLoggedIn) {
             navigate('/')
-            // toast.error("Already logged In")
         }
-    }, [dispatch, navigate, isLoggedIn])
+    }, []) 
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -59,14 +46,11 @@ export const Login = () => {
                 return;
             }
 
-            const res = await axios.post(`${API}/login`, data)
-            console.log(res)
+            const res = await UserApi.post("/login", data)
             if (res.data.success) {
-                // console.log(login(res.data?.validEmail))
                 dispatch(login(res.data?.validEmail))
 
                 toast.success(res.data.msg)
-                localStorage.setItem("user", JSON.stringify(res.data?.validEmail))
                 setTimeout(() => {
                     setdata({
                         email: "",

@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import React , { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import UserApi from "../utils/UserApi";
+import { login } from "../Redux/feature/userSlice";
 const API = import.meta.env.VITE_USER_URL
 
 
@@ -12,33 +13,22 @@ export const EditProfile = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
+    const [userData, setuserData] = useState({
         Name: "",
         bio: "",
         email: "",
-        profilePicture: null,
-        previewImage: ""
+        profilePicture: null
     });
-
-    // console.log(user)
+    const [preview, setpreview] = useState(null)
+    
 
     useEffect(() => {
-        // setFormData({
-        //     Name: user.Name || "",
-        //     bio: user.bio || "",
-        //     email: user.email || "",
-        //     mobile_no: user.mobile_no || "",
-        //     previewImage: user.profilePicture || ""
-        // });
-        if (!isLoggedIn) {
-            navigate("/login")
-        }
-        fetchData()
+        fetchData()        
     }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
+        setuserData(prev => ({
             ...prev,
             [name]: value
         }));
@@ -47,10 +37,14 @@ export const EditProfile = () => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setFormData(prev => ({
+            const reader = new FileReader();
+            reader.onload = ()=>{
+                setpreview(reader.result)
+            }
+            reader.readAsDataURL(file)
+            setuserData(prev => ({
                 ...prev,
                 profilePicture: file,
-                previewImage: URL.createObjectURL(file)
             }));
         }
     };
@@ -59,24 +53,24 @@ export const EditProfile = () => {
         e.preventDefault();
         setLoading(true);
 
-        try {            
-            console.log(formData)
-            console.log(user)
-
-
+        try { 
             const formdata = new FormData();
-            formdata.append('name',formData.Name)
-            formdata.append('username',user.username)
-            formdata.append('bio',formData.bio)
-            formdata.append('profilePicture', formData.profilePicture)
 
-            console.log(formdata)
+            formdata.append('name',userData.Name)
+            formdata.append('username',user.username)
+            formdata.append('bio',userData.bio)
+            formdata.append('profilePicture', userData.profilePicture)
+            // console.log(formdata)
+
             const res = await UserApi.put(`/update-userdetails`,formdata ,{
                 headers:{
                     "Content-Type":"multipart/form-data"
                 }
             })
-            console.log(res)
+            // console.log(res)
+            toast.success(res.data?.msg)
+            dispatch(login(res.data?.userData))
+            navigate("/")
         } catch (error) {
             toast.error("Error updating profile");
             console.error(error);
@@ -88,23 +82,23 @@ export const EditProfile = () => {
     const fetchData =  async ()=>{
         try {
             const response = await UserApi.get("/getUser-details");
-            const user = response?.data?.user;
+            const User = response?.data?.user;
             console.log(response)
             console.log(response?.data?.user);
             
-            // if (user) {
-            //   setuserdata({
-            //     name: user.Name || "",
-            //     username: user.username || "",
-            //     bio: user.bio || "",
-            //     profilePicture: user.profilePicture || "",
-            //   });
-            //   setPreviewImage(user.profilePicture || ""); // Set preview for existing image
-            // }
+            if (User) {
+              setuserData({
+                Name: User.Name || "",
+                username: User.username || "",
+                bio: User.bio || "",
+                profilePicture: User.profilePicture || null
+              }); 
+              setpreview(User.profilePicture || null)
+            }
           } catch (error) {
             if (!error.response?.data?.success) {
               toast.error(error.response?.data?.msg);
-            //   navigate("/login");
+              navigate("/login");
             }
             console.error(error);
           }
@@ -123,7 +117,7 @@ export const EditProfile = () => {
                         <div className="relative">
                             <div className="h-32 w-32 rounded-full border-4 border-white shadow-lg overflow-hidden">
                                 <img 
-                                    src={formData.previewImage} 
+                                    src={preview} 
                                     alt="Profile" 
                                     className="h-full w-full object-cover"
                                 />
@@ -163,7 +157,7 @@ export const EditProfile = () => {
                             <input 
                                 type="text" 
                                 name="Name"
-                                value={formData.Name}
+                                value={userData.Name}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
@@ -174,7 +168,7 @@ export const EditProfile = () => {
                             <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
                             <textarea 
                                 name="bio"
-                                value={formData.bio}
+                                value={userData.bio}
                                 onChange={handleChange}
                                 rows="3"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -187,7 +181,7 @@ export const EditProfile = () => {
                             <input 
                                 type="email" 
                                 name="email"
-                                value={formData.email}
+                                value={userData.email}
                                 onChange={handleChange}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
