@@ -192,7 +192,7 @@ export const UserProfile = () => {
                     <button className="h-auto w-auto px-4 py-0.5  flex justify-around items-center cursor-pointer hover:underline rounded-2xl text-lg border text-white  border-transparent bg-[#f72929] active:scale-95 duration-100 ease-in " onClick={handlelogout}  ><FaSignOutAlt />logout</button>
                 </div>
                 <div className="space-y-2 w-[100%] px-6 my-4 flex justify-between items-center ">
-                    <button  className="h-auto w-auto px-2 flex justify-around items-center cursor-pointer hover:underline rounded text-lg  border  border-black active:scale-95 duration-100 ease-in " onClick={handleBlog} ><RiBloggerLine className="font-bold" /> Your Blog </button>
+                    <button  className="h-auto w-auto px-2 flex justify-around items-center cursor-pointer hover:underline rounded text-lg  border  border-black active:scale-95 duration-100 ease-in " onClick={handleBlog} ><RiBloggerLine className="font-bold" /> My Blog </button>
                 </div>
             </section>
         </div>

@@ -6,8 +6,8 @@ import { toast } from "react-toastify"
 import UserApi from "../utils/UserApi"
 const API = import.meta.env.VITE_USER_URL
 
-
-export const Signup = () => {
+ 
+export const Signup = ({togglePanel}) => {
     const [data, setdata] = useState({ name: "", username: "", email: "", password: "", confirmPassword: "", mobileNo: "", profilePicture: "" })
     const [previewImg, setpreviewImg] = useState("")
     const [showpass, setshowpass] = useState(false)
@@ -228,6 +228,7 @@ export const Signup = () => {
                     </span>
                 </div>
                 <button type='submit' className='bg-[#FF4B2B] active:scale-95 ease-in duration-75 cursor-pointer text-white px-4 py-2 rounded-md w-[100%] text-[18px] ' >Sign up</button>
+                <p className="text-gray-500 my-2 md:hidden block " >Already have an Account ? <span className="text-blue-500 active:text-red-600 cursor-pointer hover:underline " onClick={togglePanel} >sign up</span></p>
 
             </form>
         </>

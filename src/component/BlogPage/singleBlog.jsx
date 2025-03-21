@@ -29,7 +29,6 @@ export const SingleBlog = () => {
         }
         fetchSingleBlog()
     }, [])
-
     if (load) {
         return (
             <div className="flex justify-center items-center h-[50vh]" >
@@ -44,16 +43,13 @@ export const SingleBlog = () => {
             </div>
         )
     }
-
     const handleAddComment = (e)=>{
         e.preventDefault()
         console.log(comment);        
     }
 
-
-
     return (
-        <section className="relative top-[20vh] h-auto w-[70vw] py-8 px-3 mx-auto shadow-2xl ">
+        <section className="h-auto md:w-[70vw] w-[95vw] py-8 px-3 mx-auto my-2 shadow-xl md:shadow-2xl ">
             {
                 singleBlog.length === 0 ? (
                     <h1 className="text-3xl font-semibold" >No singleBlog...</h1>
@@ -95,26 +91,10 @@ export const SingleBlog = () => {
                         <div className="w-[90%] mx-auto my-4">
                             <h1 className="font-semibold text-lg">Add comment:-</h1>
                             <form action="" onSubmit={(e)=> handleAddComment} className="flex flex-col gap-3">
-                                <input 
-                                    type="text" 
-                                    placeholder="Enter comment" 
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500"
-                                    value={comment}
-                                    name="comment"
-                                    onChange={(e)=>setcomment(e.target.val)}
-                                />
+                                <input  type="text"  placeholder="Enter comment"  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" value={comment} name="comment" onChange={(e)=>setcomment(e.target.val)} />
                                 <div className="flex gap-3 font-semibold">
-                                    <button 
-                                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                                    >
-                                        Submit
-                                    </button>
-                                    <button 
-                                        type="reset" 
-                                        className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                                    >
-                                        Reset
-                                    </button>
+                                    <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" >Submit</button>
+                                    <button type="reset" className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors" >Reset</button>
                                 </div>
                             </form>
                         </div>

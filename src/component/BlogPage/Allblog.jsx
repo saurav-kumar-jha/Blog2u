@@ -33,7 +33,6 @@ export const ALlBlog = () => {
             </div>
         )
     }
-
     if (err) {
         return(
             <div className="flex justify-center items-center h-[50vh]" >
@@ -41,8 +40,6 @@ export const ALlBlog = () => {
             </div>
         )
     }
-
-
     const handleClick = (id) => {
         navigate(`/blog/${id}`)
     }
@@ -54,16 +51,15 @@ export const ALlBlog = () => {
                         <h1>No blog found..</h1>
                     ) : (
                         blogs.map((item) => (
-                            <li key={item._id} onClick={() => handleClick(item._id)} className="h-auto min-h-[350px] max-h-[400px] w-[300px] relative shadow-2xl my-1 p-2 flex flex-col">
-                                <img src={item.image || "alt_photo.jpg"} alt="blog image" className="h-[200px] w-[280px] object-cover " />
-                                <h1 className="text-3xl font-bold text-center my-2 " >{item.title} </h1>
+                            <li key={item._id} onClick={() => handleClick(item._id)} className="h-auto min-h-[350px] max-h-[400px] w-[75vw] md:w-[300px] relative md:shadow-2xl shadow-xl my-1 p-2 flex flex-col ">
+                                <img src={item.image || "alt_photo.jpg"} alt="blog image" className="h-[200px] w-[100%] object-cover cursor-pointer hover:scale-105 ease-in-out duration-200 rounded transition-transform " />
+                                <h1 className="text-3xl font-bold text-center my-2 cursor-pointer hover:text-blue-400 " >{item.title} </h1>
                                 <p className="text-sm overflow-hidden text-ellipsis my-2 line-clamp-2 ">{item.content} </p>
                                 <div className="flex justify-center mt-auto">
                                     <button className="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold cursor-pointer hover:bg-blue-700" >Click here</button>
                                 </div>
                             </li>
                         ))
-
                     )
                 }
 

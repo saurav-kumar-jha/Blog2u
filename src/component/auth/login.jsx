@@ -11,20 +11,20 @@ const AuthForm = () => {
 
   return (
     <>
-      <div className={`bg-white w-[75vw] h-auto mx-auto my-4 min-h-[620px] rounded-lg relative top-[20vh] overflow-hidden shadow-2xl transition-all duration-700 ease-in-out`}>
-        <div className={`absolute show top-0  h-[100%] transition-transform duration-700 ease-in-out right-0 w-[50%] opacity-0 z-10 p-3 ${isSignUp ? "opacity-100 z-20 translate-x-0" : ""}`}>
-         <Signup/>
+      <div className={`bg-white w-[75vw] h-auto mx-auto my-4 min-h-[620px] rounded-lg relative overflow-hidden shadow-2xl transition-all duration-700 ease-in-out`}>
+        <div className={`absolute show top-0 h-[100%] transition-transform duration-700 ease-in-out md:right-0 w-[90%] mx-auto md:w-[50%] opacity-0 z-10 p-3 ${isSignUp ? "opacity-100 z-20 translate-x-0" : ""}`}>
+         <Signup togglePanel={togglePanel} />
         </div>
 
         {/* signin */}
-        <div className={`absolute top-[10px] h-[100%] show transition-transform duration-700 ease-in-out left-0 w-[50%] z-20 py-3 ${
+        <div className={`absolute top-[10px] h-[100%] show transition-transform duration-700 ease-in-out left-0 w-[90%] md:w-[50%] z-20 py-3 ${
           isSignUp ? "opacity-0 z-[-1]" : ""
         }`}>
-            <Login/>
+            <Login togglePanel={togglePanel} />
         </div>
 
         {/* Overlay */}
-        <div className={`absolute top-0 w-[50%] h-[100%] overflow-hidden transition-transform duration-700 ease-in-out z-10 ${
+        <div className={`absolute top-0 w-[50%] h-[100%] overflow-hidden transition-transform md:block hidden duration-700 ease-in-out z-10 ${
           isSignUp ? "translate-x-[0%]" : "translate-x-[100%]"}`}>
           <div className='bg-[#FF416C] h-[100%] w-[200%] bg-no-repeat bg-cover text-white relative transition-transform duration-700 ease-in-out'>
             <div className={`absolute flex justify-center items-center flex-col px-[40px] text-center top-0 h-[100%] w-[50%] transition-transform duration-700 ease-in-out ${isSignUp ? 'translate-x-[100%]' : 'translate-x-0'}`}>

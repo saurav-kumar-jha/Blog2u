@@ -6,14 +6,16 @@ import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { login } from "../Redux/feature/userSlice"
 import UserApi from "../utils/UserApi"
+import { ForgetPassword } from "./ForgetPassword"
 
 
-export const Login = () => {
+export const Login = ({ togglePanel }) => {
     const [data, setdata] = useState({ email: "", password: "", confirmPassword: "" })
     const [load, setload] = useState(false)
     const [showpass, setshowpass] = useState(false)
     const [showcnfpass, setshowcnfpass] = useState(false)
     const { isLoggedIn } = useSelector((state) => state.user)
+    const [showfp, setshowfp] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -21,13 +23,13 @@ export const Login = () => {
         if (isLoggedIn) {
             navigate('/')
         }
-    }, []) 
+    }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target
         setdata((prev) => ({
             ...prev,
-            [name] : value
+            [name]: value
         }))
     }
     const validValue = (
@@ -86,7 +88,7 @@ export const Login = () => {
     }
     return (
         <>
-            <form action="" onSubmit={handleSubmit} className='flex justify-center items-center flex-col text-center bg-[#FFFFFF] h-[90%] px-[50px] '>
+            <form onSubmit={handleSubmit} className={`${!showfp ? "flex":"hidden"} justify-center items-center flex-col text-center bg-[#FFFFFF] h-[90%] px-[50px] `}>
                 <h1 className='font-bold my-3 text-4xl text-center'>Sign in</h1>
 
                 <input type="email" name="email" value={data.email} onChange={handleChange} placeholder='Email' className='w-[100%] bg-[#eee] px-[15px] py-[12px] mb-[-4px] rounded-md outline-none focus:ring-2 focus:ring-[#9b9898] focus:border-transparent transition-all duration-300 ease-in-out' /><br />
@@ -117,9 +119,15 @@ export const Login = () => {
 
                     </span>
                 </div>
-                <a href="#" className='text-sm text-gray-500 my-3'>Forget your password?</a>
+                <p className='text-sm text-gray-500 my-3 cursor-pointer hover:underline active:text-red-500 ' onClick={()=>setshowfp(!showfp)} >Forget your password?</p>
                 <button type='submit' className='bg-[#FF4B2B] cursor-pointer text-white active:scale-95 ease-in duration-75 px-4 py-2 rounded-md w-[100%] text-[18px] ' >{load ? "Signing..." : "Sign In"}</button>
+                <p className="text-gray-500 my-2 md:hidden block " >Don't have an Account ? <span className="text-blue-500 active:text-red-600 cursor-pointer hover:underline " onClick={togglePanel} >sign in</span></p>
+            </form>
 
+            <form className={`${showfp ? "flex":"hidden"} justify-center items-center flex-col text-center bg-[#FFFFFF] h-[90%] px-[50px] `} >
+                <h1 className='font-bold my-3 text-4xl text-center'>Forget Password</h1>
+                <ForgetPassword/>
+                <button onClick={()=>setshowfp(!showfp)}>back</button>
             </form>
         </>
     )

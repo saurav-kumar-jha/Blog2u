@@ -16,6 +16,7 @@ import { AddBlog } from './component/BlogPage/AddBlog'
 import { EditProfile } from './component/Nav/EditProfile'
 import UserApi from './component/utils/UserApi'
 import { UserBlog } from './component/Nav/UserBlog'
+import Footer from './footer/footer'
 const API = import.meta.env.VITE_USER_URL
 
 const Heropage = ()=>{
@@ -35,7 +36,7 @@ const Home = ()=>{
      {
         navigate.pathname == "/" ?( <Heropage/>):( <Outlet/>)
      }
-     
+     <Footer/>
     </>
   )
 }
