@@ -15,6 +15,7 @@ export const EditProfile = () => {
     const [loading, setLoading] = useState(false);
     const [userData, setuserData] = useState({
         Name: "",
+        username:"",
         bio: "",
         email: "",
         profilePicture: null
@@ -57,10 +58,10 @@ export const EditProfile = () => {
             const formdata = new FormData();
 
             formdata.append('name',userData.Name)
-            formdata.append('username',user.username)
+            formdata.append('username',userData.username)
             formdata.append('bio',userData.bio)
             formdata.append('profilePicture', userData.profilePicture)
-            // console.log(formdata)
+            console.log(userData)
 
             const res = await UserApi.put(`/update-userdetails`,formdata ,{
                 headers:{
@@ -144,11 +145,12 @@ export const EditProfile = () => {
                             <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                             <input 
                                 type="text" 
-                                value={user.username}
-                                disabled
-                                className="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-md text-gray-500"
+                                name="username"
+                                value={userData.username}
+                                onChange={handleChange}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-                            <p className="mt-1 text-sm text-gray-500">Username cannot be changed</p>
+                            {/* <p className="mt-1 text-sm text-gray-500">Username cannot be changed</p> */}
                         </div>
 
                         {/* Name */}

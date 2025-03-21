@@ -9,6 +9,8 @@ import { toast } from "react-toastify"
 import { login, logout } from "../Redux/feature/userSlice"
 import axios from "axios"
 import UserApi from "../utils/UserApi"
+import BlogApi from "../utils/blogApi"
+import { RiBloggerLine } from "react-icons/ri"
 const API = import.meta.env.VITE_USER_URL
 
 export const UserProfile = () => {
@@ -61,6 +63,9 @@ export const UserProfile = () => {
             console.log(e)
         }
     }
+    const handleBlog = (e)=>{
+        navigate("/user/blog")
+    }
     const fetchUserDetail = async (e)=>{
         try{
             const res = await UserApi.get('/getUser-details')
@@ -72,6 +77,7 @@ export const UserProfile = () => {
             console.log(e)
         }
     }
+    
     return (
         <div className="min-h-screen bg-gray-50 py-8">
             <section className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
@@ -184,6 +190,9 @@ export const UserProfile = () => {
                 <div className="space-y-2 w-[100%] px-6 my-4 flex justify-between items-center " >
                     <button className="h-auto w-auto px-2 flex justify-around items-center cursor-pointer hover:underline rounded text-lg  border  border-black active:scale-95 duration-100 ease-in " onClick={handleEdit} ><MdEdit />Edit</button>
                     <button className="h-auto w-auto px-4 py-0.5  flex justify-around items-center cursor-pointer hover:underline rounded-2xl text-lg border text-white  border-transparent bg-[#f72929] active:scale-95 duration-100 ease-in " onClick={handlelogout}  ><FaSignOutAlt />logout</button>
+                </div>
+                <div className="space-y-2 w-[100%] px-6 my-4 flex justify-between items-center ">
+                    <button  className="h-auto w-auto px-2 flex justify-around items-center cursor-pointer hover:underline rounded text-lg  border  border-black active:scale-95 duration-100 ease-in " onClick={handleBlog} ><RiBloggerLine className="font-bold" /> Your Blog </button>
                 </div>
             </section>
         </div>

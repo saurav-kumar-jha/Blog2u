@@ -45,6 +45,7 @@ export const AddBlog = () => {
                     "Content-Type": "multipart/form-data"
                 }
             })
+            console.log(res.data)
             setload(false)
             if(res.data.success){
                 toast.success("Blog Added Successfully")
@@ -56,7 +57,7 @@ export const AddBlog = () => {
                       profilePicture: null,
                       preview: "",
                     });
-                    navigate(`/blog/${response.data.blog._id}`);
+                    navigate(`/blog/${res.data.blog._id}`);
                 }, 1500);
             }else{
                 toast.error(res.data.msg)

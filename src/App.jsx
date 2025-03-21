@@ -15,6 +15,7 @@ import { UserProfile } from "./component/Nav/userProfile"
 import { AddBlog } from './component/BlogPage/AddBlog'
 import { EditProfile } from './component/Nav/EditProfile'
 import UserApi from './component/utils/UserApi'
+import { UserBlog } from './component/Nav/UserBlog'
 const API = import.meta.env.VITE_USER_URL
 
 const Heropage = ()=>{
@@ -56,7 +57,8 @@ const router = createBrowserRouter([
     },
     {
       path:"/user",
-      element:<UserProfile/>
+      element:<UserProfile/>,
+      children:[]
     },
     {
       path:"/create-blog",
@@ -65,6 +67,10 @@ const router = createBrowserRouter([
     {
       path:"/user/edit-profile",
       element:<EditProfile />
+    },
+    {
+      path:"/user/blog",
+      element:<UserBlog/>
     }
   ]
   },
@@ -81,7 +87,7 @@ function App() {
     try {
       const res = await UserApi.get('/auth-check')
       console.log(res)
-      if(res.data?.userData){
+      if(res.data.success){
         dispatch(login(res.data?.userData))
       }
     } catch (error) {

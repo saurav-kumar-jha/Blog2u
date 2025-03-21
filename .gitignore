@@ -23,8 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-./.env
-./src/data.js
-./skatch.ino
-./skatch1.ino
+.env
+src/data.js
+skatch.ino
+skatch1.ino
 src/component/utils/blogApi.jsx

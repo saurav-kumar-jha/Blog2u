@@ -1,6 +1,19 @@
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 
 export const Hero = () => {
+    const {isLoggedIn} = useSelector((state)=> state.user)
+    const navigate = useNavigate()
+
+    const handleStart = (e)=>{
+        e.preventDefault()
+        if(isLoggedIn){
+            navigate("/create-blog")
+        }else{
+            navigate("/login")
+        }
+    }
 
     return (
         <>
@@ -12,7 +25,7 @@ export const Hero = () => {
                     </div>
 
                     <div className="h-[15%] w-full flex justify-center items-center ">
-                        <button className="h-auto w-auto px-8 py-4 bg-[orange] text-white text-2xl font-semibold cursor-pointer hover:scale-110 duration-200 ease-in-out active:scale-90  rounded-xl ">Get started</button>
+                        <button className="h-auto w-auto px-8 py-4 bg-[orange] text-white text-2xl font-semibold cursor-pointer hover:scale-110 duration-200 ease-in-out active:scale-90  rounded-xl " onClick={handleStart} >Get started</button>
                     </div>
                 </section>
 
