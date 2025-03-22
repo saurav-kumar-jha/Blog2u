@@ -17,6 +17,7 @@ import { EditProfile } from './component/Nav/EditProfile'
 import UserApi from './component/utils/UserApi'
 import { UserBlog } from './component/Nav/UserBlog'
 import Footer from './footer/footer'
+import { Contact } from './component/HeroPage/contact'
 const API = import.meta.env.VITE_USER_URL
 
 const Heropage = ()=>{
@@ -24,6 +25,7 @@ const Heropage = ()=>{
     <>
      <Hero/>
      <Hero2/>
+     <Contact />
     </>
   )
 }
@@ -72,6 +74,10 @@ const router = createBrowserRouter([
     {
       path:"/user/blog",
       element:<UserBlog/>
+    },
+    {
+      path:"/contact",
+      element:<Contact/>
     }
   ]
   },

@@ -24,6 +24,9 @@ export const EditProfile = () => {
     
 
     useEffect(() => {
+        if(!isLoggedIn){
+            navigate("/")
+        }
         fetchData()        
     }, []);
 

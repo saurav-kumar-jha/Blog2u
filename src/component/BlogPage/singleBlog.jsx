@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { FaUser } from "react-icons/fa"
 import { useParams } from "react-router-dom"
+import UserApi from "../utils/UserApi"
 const API = import.meta.env.VITE_API_URL
 
 
@@ -43,9 +44,14 @@ export const SingleBlog = () => {
             </div>
         )
     }
-    const handleAddComment = (e)=>{
+    const handleAddComment = async (e)=>{
         e.preventDefault()
-        console.log(comment);        
+        try{
+            const res = await UserApi.post('/add-comment' , { id:_id, comment } )
+            console.log(res)
+        }catch(e){
+            console.log(e)
+        } 
     }
 
     return (
@@ -90,7 +96,7 @@ export const SingleBlog = () => {
                         <hr className="h-[2px] w-[90%] mx-auto bg-zinc-200 " />
                         <div className="w-[90%] mx-auto my-4">
                             <h1 className="font-semibold text-lg">Add comment:-</h1>
-                            <form action="" onSubmit={(e)=> handleAddComment} className="flex flex-col gap-3">
+                            <form action="" onSubmit={handleAddComment} className="flex flex-col gap-3">
                                 <input  type="text"  placeholder="Enter comment"  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-500" value={comment} name="comment" onChange={(e)=>setcomment(e.target.val)} />
                                 <div className="flex gap-3 font-semibold">
                                     <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" >Submit</button>

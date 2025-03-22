@@ -9,7 +9,7 @@ export const Hero2 = ()=>{
                 <p className="text-xl font-medium text-left my-4">Save the moments that matter. Blogger lets you safely store thousands of posts, photos, and more with Google.</p>
             </div>
             <div className="md:w-[38%] w-[90%] h-[50%] md:h-[100%] mx-auto flex items-center z-10">
-                <img src="/hero2.jpg" alt="" className="h-[90%] w-auto object-cover ml-[5%] border-2 border-white rotate-[-10deg] duration-500 ease-in-out hover:rotate-0 rounded-xl " />
+                <img src="/hero2.jpg" alt="" loading="lazy" className="h-[90%] w-auto object-cover ml-[5%] border-2 border-white rotate-[-10deg] duration-500 ease-in-out hover:rotate-0 rounded-xl " />
             </div>
         </section>
     )

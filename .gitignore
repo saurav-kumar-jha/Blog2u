@@ -28,3 +28,5 @@ src/data.js
 skatch.ino
 skatch1.ino
 src/component/utils/blogApi.jsx
+public/contact_img.png
+src/component/HeroPage/contact.jsx

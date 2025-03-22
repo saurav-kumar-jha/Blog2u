@@ -3,12 +3,17 @@ import BlogApi from "../utils/blogApi";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 export const UserBlog = () => {
     const [Data, setData] = useState([]);
+    const {isLoggedIn } = useSelector((state) => state.user);
     const navigate = useNavigate();
 
     useEffect(() => {
+        if(!isLoggedIn){
+            navigate("/login")
+        }
         fetchUserBlog();
     }, []);
 
@@ -50,7 +55,7 @@ export const UserBlog = () => {
                             You haven't posted any blogs yet.
                         </p>
                         <button
-                            onClick={() => navigate("/add-blog")}
+                            onClick={() => navigate("/create-blog")}
                             className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
                         >
                             Get Started
